@@ -159,7 +159,7 @@ de_gen_output = DE_Generalized(['linear', 'log10'], # List of transforms to undo
 
                                plot_cost_history=True, # Returns plots of the cost history for the full model (no bootstraps) and, if n_boot > 0, plot of cost history of bootstraps
 
-                               show_usage-False, # Provides more detailed information on how to pull individual results from DE_Generalized
+                               show_usage=False, # Provides more detailed information on how to pull individual results from DE_Generalized
 
                                ODE_names=None, # Provides a way to attach ODE name to individual RMSLEs upon return
 
