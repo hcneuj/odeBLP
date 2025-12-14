@@ -161,7 +161,9 @@ de_gen_output = DE_Generalized(['linear', 'log10'], # List of transforms to undo
 
                                show_usage-False, # Provides more detailed information on how to pull individual results from DE_Generalized
 
-                               ODE_names=None) # Provides a way to attach ODE name to individual RMSLEs upon return
+                               ODE_names=None, # Provides a way to attach ODE name to individual RMSLEs upon return
+
+                               n_jobs=1) # Specifies how many CPU processors bootstrapping should utilize
 ```
 NOTE: If there are multiple treatment groups, you need to run `DE_Generalized` for each treatment group, separately.
 
