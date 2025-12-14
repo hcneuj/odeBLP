@@ -1,5 +1,5 @@
 # A General ODE Bootstrap
-A package to perform parameter estimation for ordinary differential equations (ODEs) using the Differential Evolution (DE) algorithm, with an option to perform bootstrapping.
+A package to perform parameter estimation for ordinary differential equations (ODEs) using the Differential Evolution (DE) algorithm, with an option to perform bootstrapping. There is also an option to run bootstrapping on multiple CPU processors.
 
 ## Requirements
 For importing into your python workspace:
