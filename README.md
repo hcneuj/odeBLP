@@ -165,6 +165,8 @@ de_gen_output = DE_Generalized(['linear', 'log10'], # List of transforms to undo
 
                                n_jobs=1) # Specifies how many CPU processors bootstrapping should utilize
 ```
+NOTE: `os.cpu_count()` can be used to determine exactly how many CPU processors are availables for use. More processors used results in reduced run-time for bootstrapping. Default value for the number of processors to be used is set to 1.
+
 NOTE: If there are multiple treatment groups, you need to run `DE_Generalized` for each treatment group, separately.
 
 9. Use `DE_Results` to get fitted line using estimated parameters, confidence intervals for parameters from bootstrapping, and confidence interval band from model fits from bootstrapping results:
