@@ -154,9 +154,9 @@ de_res_output = DE_Results(de_gen_output,
                            [A_0, B_0],
                            [unique_t_A, unique_t_B],
                            param_bounds,
-                           conf_int=(2.5, 97.5)                         # Optional change to confidence interval-DEFAULT: conf_int(2.5, 97.5) (95% confidence interval)
+                           conf_int=(2.5, 97.5),                          # Optional change to confidence interval-DEFAULT: conf_int(2.5, 97.5) (95% confidence interval)
                            params_trans=['linear','log10'],
-                           param_names=['parameter 1', 'parameter 2']   # Optional argument to specify name of each parameter-DEFAULT: param_names=None
+                           param_names=['parameter 1', 'parameter 2'],    # Optional argument to specify name of each parameter-DEFAULT: param_names=None
                            show_usage=False)
 ```
 10. View results:
@@ -188,3 +188,17 @@ de_res_output['Upper CI: Fit'][:, j] # Upper bound of confidence interval for bo
 NOTE: Order of outputs for each ODE in `DE_Results` matches the same order ODE equations are defined and returned in from ODE_model.
 
 12. Use `DE_profile_likelihood` to get profile likelihood curves for each parameter:
+```python
+pl_output = DE_profile_likelihood(ODE_model,                         
+                                  [A_0, B_0],                       
+                                  [your_obs[0], your_obs[1]],       
+                                  [sample_t_A, sample_t_B],          
+                                  [unique_t_A, unique_t_B],         
+                                  param_bounds,                     
+                                  n_points=100,                      # Optional change for grid values to check for each parameter-DEFAULT: n_points=100
+                                  params_trans=['linear','log10'],   
+                                  param_names=['parameter 1', 'parameter 2'],
+                                  maxiter=10000,                    
+                                  tol=1e-5)
+```
+NOTE: You will need to filter the `DE_profile_likelihood` results by parameter to plot each individual parameter profile likelihood.
