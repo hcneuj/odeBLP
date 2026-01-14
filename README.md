@@ -19,16 +19,15 @@ For running functions within this package:
 ## Using this Package
 1. Import all required libraries and packages:
 ```python
-from A_General_ODE_Bootstrap import timeseries_pull, observedData_pull, CostFunction, DE_Generalized, DE_Results
+import odeBLP
 
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy.integrate import odeint
 from scipy.optimize import differential_evolution
-import seaborn as sns
 from collections import Counter
-from matplotlib.ticker import MultipleLocator
+import os
 ```
 2. Import data as a `pandas` dataframe:
 ```python
@@ -126,44 +125,23 @@ parameter 2 = lower bound, upper bound
 
 param_bounds = [parameter 1, parameter 2]
 ```
-8. Use `DE_Generalized` to solve system of ODEs, and implement optional bootstrapping:
+8. Use `DE_Generalized` to solve system of ODEs and implement optional bootstrapping:
 ```python
-de_gen_output = DE_Generalized(['linear', 'log10'], # List of transforms to undo if parameters where transformed: 'Linear' -> unchanged
-                                                    #                                                             'log10' -> undo log10 transformation of parameter
-
-                               ODE_model, # ODE model defined earlier
-
-                               [A_0, B_0], # Initial conditions for each ODE equation
-                                           # NOTE: Order of initial conditions needs to match order of ODE equations in ODE_model
-
-                               [your_obs[0], your_obs[1]], # Observed data pulled from observedData_pull: [0] -> pulls observed data for first variable
-                                                           #                                              [1] -> pulls observed data for second variable
-                                                           # NOTE: Order of observed variables needs to match order of ODE equations in ODE_model
-
-                               [sample_t_A, sample_t_B], # Sample times pulled from timeseries_pull
-                                                         # NOTE: If the sample time is the same for all variables, the same sample time output from timeseries_pull can be used mutliple times for as many variables as are observed
-
-                               [unique_t_A, unique_t_B], # Unique times pulled from timeseries_pull
-                                                         # NOTE: If the unique time is the same for all variables, the same unique time output from timeseries_pull can be used mutliple times for as many variables as are observed
-
-                               param_bounds, # Parameter bounds defined above for DE to search for parameter estimates
-
-                               n_boot=0, # Number of bootstraps to be performed
-                                         # NOTE: Change 0 to the number of bootstraps to be performed if bootstrapping is wanted
-
-                               rmsle_return=True, # Returns individual RMSLEs for each ODE equation
-
-                               maxiter=10000, # Number of iterations DE works for
-
-                               tol=1e-5, # Error tolerance
-
-                               plot_cost_history=True, # Returns plots of the cost history for the full model (no bootstraps) and, if n_boot > 0, plot of cost history of bootstraps
-
-                               show_usage=False, # Provides more detailed information on how to pull individual results from DE_Generalized
-
-                               ODE_names=None, # Provides a way to attach ODE name to individual RMSLEs upon return
-
-                               n_jobs=1) # Specifies how many CPU processors bootstrapping should utilize
+de_gen_output = DE_Generalized(ODE_model,                          # ODE model
+                               [A_0, B_0],                        # Initial conditions
+                               [your_obs[0], your_obs[1]],        # Observed data
+                               [sample_t_A, sample_t_B],          # Sample times
+                               [unique_t_A, unique_t_B],          # Unique times
+                               param_bounds,                      # Parameter bounds
+                               n_boot=10,                         # Optional argument to specify number of bootstraps-DEFAULT: n_boot=0
+                               n_jobs=os.cpu_count() - 4,         # Optional argument to specify number of CPU processors to use-DEFAULT: n_jobs=1
+                               params_trans=['linear','log10'],   # Optional argument to specify parameter untransformations-DEFAULT: params_trans=None (remains linear)
+                               rmsle_return=True,                 # Optional argument to return both total and individual RMSLEs-DEFAULT: rmsle_return=True
+                               maxiter=10000,                     # Optional change to number of iterations DE needs to run-DEFAULT: maxiter=10000
+                               tol=1e-5,                          # Optional change to error tolerance DE stops at-DEFAULT: tol=1e-5
+                               plot_cost_hist=True,               # Optional argument to plot cost history-DEFAULT: plot_cost_hist=True
+                               ODE_names=['dA','dB'],             # Optional list of ODE names-DEFAULT: ODE_names=None
+                               show_usage=False)                  # Optional argument to display usage guide-DEFAULT: show_usage=False
 ```
 NOTE: `os.cpu_count()` can be used to determine exactly how many CPU processors are availables for use. More processors used results in reduced run-time for bootstrapping. Default value for the number of processors to be used is set to 1.
 
@@ -215,4 +193,4 @@ de_res_output['Upper CI: Fit'][:, j] # Upper bound of confidence interval for bo
 ```
 NOTE: Order of outputs for each ODE in `DE_Results` matches the same order ODE equations are defined and returned in from ODE_model.
 
-
+12. Use `DE_profile_likelihood` to get profile likelihood curves for each parameter:
