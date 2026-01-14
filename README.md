@@ -202,3 +202,12 @@ pl_output = DE_profile_likelihood(ODE_model,
                                   tol=1e-5)
 ```
 NOTE: You will need to filter the `DE_profile_likelihood` results by parameter to plot each individual parameter profile likelihood.
+
+13. Graph results:
+
+Profile likelihoods for each parameter can now be graphed. To pull results from the output of `DE_profile_likelihood`:
+```python
+pl_output['Value'][pl_output['Parameter'] == 'parameter 1']   # All fixed parameter values for parameter 1 that were checked
+
+pl_output['Error'][pl_output['Parameter'] == 'parameter 1']   # All RMSLEs from optimized full models that were run with each fixed grid value
+```
