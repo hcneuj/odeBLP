@@ -211,3 +211,4 @@ pl_output['Value'][pl_output['Parameter'] == 'parameter 1']   # All fixed parame
 
 pl_output['Error'][pl_output['Parameter'] == 'parameter 1']   # All RMSLEs from optimized full models that were run with each fixed grid value
 ```
+NOTE: This general pattern can be repeated for all parameters in your model.
