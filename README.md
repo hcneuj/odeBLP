@@ -127,7 +127,7 @@ param_bounds = [parameter 1, parameter 2]
 ```
 8. Use `DE_Generalized` to solve system of ODEs and implement optional bootstrapping:
 ```python
-de_gen_output = DE_Generalized(ODE_model,                          # ODE model
+de_gen_output = DE_Generalized(ODE_model,                         # ODE model
                                [A_0, B_0],                        # Initial conditions
                                [your_obs[0], your_obs[1]],        # Observed data
                                [sample_t_A, sample_t_B],          # Sample times
@@ -150,20 +150,14 @@ NOTE: If there are multiple treatment groups, you need to run `DE_Generalized` f
 9. Use `DE_Results` to get fitted line using estimated parameters, confidence intervals for parameters from bootstrapping, and confidence interval band from model fits from bootstrapping results:
 ```python
 de_res_output = DE_Results(de_gen_output,
-
-                           ['linear', 'log10'],
-
-                           [A_0, B_0],
-
-                           [unique_t_A, unique_t_B],
-
                            ODE_model,
-
-                           (2.5, 97.5) # Confidence interval
-
-                           show_usage=False,
-
-                           param_names=['parameter 1', 'parameter 2']) # List of parameter names to produce a labeled table with parameter estimates and confidence intervals
+                           [A_0, B_0],
+                           [unique_t_A, unique_t_B],
+                           param_bounds,
+                           conf_int=(2.5, 97.5)                         # Optional change to confidence interval-DEFAULT: conf_int(2.5, 97.5) (95% confidence interval)
+                           params_trans=['linear','log10'],
+                           param_names=['parameter 1', 'parameter 2']   # Optional argument to specify name of each parameter-DEFAULT: param_names=None
+                           show_usage=False)
 ```
 10. View results:
 ```python
